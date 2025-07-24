@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ produit.nom }} - RABIBS{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-8">
+        <ol class="flex items-center space-x-2 text-sm text-gray-600">
+            <li><a href="{% url 'produits:accueil' %}" class="hover:text-black transition-colors">ACCUEIL</a></li>
+            <li><i class="fas fa-chevron-right text-xs"></i></li>
+            <li><a href="{% url 'produits:accueil' %}?categorie={{ produit.categorie.id }}" class="hover:text-black transition-colors">{{ produit.categorie.nom|upper }}</a></li>
+            <li><i class="fas fa-chevron-right text-xs"></i></li>
+            <li class="text-black font-semibold">{{ produit.nom|upper }}</li>
+        </ol>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <!-- Image du produit -->
+        <div class="space-y-4">
+            <div class="aspect-square bg-gray-100 rounded-xl overflow-hidden">
+                {% if produit.image %}
+                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" 
+                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center">
+                        <i class="fas fa-image text-6xl text-gray-400"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Informations du produit -->
+        <div class="space-y-6">
+            <!-- Catégorie -->
+            <div class="inline-block">
+                <span class="bg-black text-white px-3 py-1 text-xs font-bold uppercase tracking-wider">
+                    {{ produit.categorie.nom }}
+                </span>
+            </div>
+
+            <!-- Nom du produit -->
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wide leading-tight">
+                {{ produit.nom }}
+            </h1>
+
+            <!-- Prix -->
+            <div class="flex items-center space-x-4">
+                <span class="text-3xl font-extrabold text-black">
+                    {{ produit.prix }}€
+                </span>
+            </div>
+
+            <!-- Statut stock -->
+            <div class="flex items-center space-x-3">
+                {% if produit.est_disponible %}
+                    {% if produit.stock <= 5 %}
+                        <span class="bg-orange-500 text-black px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wide">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>{{ produit.statut_stock|upper }}
+                        </span>
+                    {% else %}
+                        <span class="bg-green-500 text-white px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wide">
+                            <i class="fas fa-check mr-2"></i>{{ produit.statut_stock|upper }}
+                        </span>
+                    {% endif %}
+                {% else %}
+                    <span class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-semibold uppercase tracking-wide">
+                        <i class="fas fa-times mr-2"></i>{{ produit.statut_stock|upper }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <!-- Description -->
+            <div class="prose prose-lg max-w-none">
+                <h3 class="text-xl font-bold uppercase tracking-wide mb-4">Description</h3>
+                <p class="text-gray-700 leading-relaxed">{{ produit.description }}</p>
+            </div>
+
+            <!-- Actions -->
+            <div class="space-y-4 pt-6">
+                <button class="w-full bg-black text-white py-4 px-6 font-bold uppercase tracking-wide text-lg hover:bg-gray-800 transition-colors duration-200 {% if not produit.est_disponible %}opacity-50 cursor-not-allowed{% endif %}"
+                        {% if not produit.est_disponible %}disabled{% endif %}>
+                    {% if produit.est_disponible %}
+                        <i class="fas fa-shopping-bag mr-3"></i>AJOUTER AU PANIER
+                    {% else %}
+                        <i class="fas fa-times mr-3"></i>{{ produit.statut_stock|upper }}
+                    {% endif %}
+                </button>
+                
+                <div class="flex space-x-4">
+                    <button class="flex-1 border-2 border-black text-black py-3 px-6 font-semibold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-200">
+                        <i class="fas fa-heart mr-2"></i>FAVORIS
+                    </button>
+                    <button class="flex-1 border-2 border-black text-black py-3 px-6 font-semibold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-200">
+                        <i class="fas fa-share mr-2"></i>PARTAGER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produits similaires -->
+    {% if produits_similaires %}
+    <section class="border-t border-gray-200 pt-10">
+        <h2 class="text-3xl font-extrabold mb-8 uppercase tracking-wide">
+            <i class="fas fa-fire mr-3"></i>PRODUITS SIMILAIRES
+        </h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for produit_similaire in produits_similaires %}
+                {% with produit=produit_similaire show_description=False show_add_to_cart=False %}
+                    {% include 'partials/product_card.html' %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

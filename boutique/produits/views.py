@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Produit, Categorie
 
 
@@ -32,4 +32,19 @@ def accueil(request):
         'total_produits': Produit.objects.count(),
     }
     return render(request, 'accueil.html', context)
+
+
+def produit_detail(request, produit_id):
+    """Page de détail d'un produit"""
+    produit = get_object_or_404(Produit, id=produit_id)
+    
+    produits_similaires = Produit.objects.filter(
+        categorie=produit.categorie
+    ).exclude(id=produit.id)[:4]
+    
+    context = {
+        'produit': produit,
+        'produits_similaires': produits_similaires,
+    }
+    return render(request, 'produit_detail.html', context)
 
