@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil - RABIBS{% endblock %}
+
+{% block content %}
+<!-- Section Hero -->
+<section class="bg-gradient-to-br from-black to-gray-900 text-white py-20">
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-black uppercase tracking-widest mb-6 animate-fade-in-up">
+            RABIBS
+        </h1>
+        <p class="text-xl opacity-90 max-w-3xl mx-auto font-light tracking-wide animate-fade-in-up" style="animation-delay: 0.2s;">
+            STYLE URBAIN AUTHENTIQUE • QUALITÉ PREMIUM • DROPS EXCLUSIFS
+        </p>
+    </div>
+</section>
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Produits -->
+    <section>
+        <h2 class="text-4xl font-extrabold mb-8 uppercase tracking-wide">
+            <i class="fas fa-fire mr-3"></i>DERNIERS DROPS
+        </h2>
+        
+        <!-- Filtres par catégories (repositionnés sous le titre) -->
+        {% if categories %}
+            <div class="mb-8">
+                <!-- Filtres -->
+                <div class="flex flex-wrap justify-start gap-3 mb-6">
+                    <!-- Bouton "Tout" -->
+                    <a href="{% url 'produits:accueil' %}" 
+                       class="inline-flex items-center px-5 py-3 {% if not categorie_selectionnee or categorie_selectionnee == 'all' %}!bg-black !text-white !border-black{% else %}bg-white text-gray-800 border-gray-200{% endif %} border-2 font-semibold uppercase tracking-wide text-sm hover:bg-black hover:text-white hover:border-black transition-all duration-200">
+                        <i class="fas fa-th mr-2"></i>
+                        <span>TOUT</span>
+                        <span class="ml-2 text-xs opacity-75">({{ total_produits }})</span>
+                    </a>
+                    
+                    <!-- Boutons par catégorie -->
+                    {% for item in categories_with_count %}
+                        <a href="?categorie={{ item.categorie.id }}" 
+                           class="inline-flex items-center px-5 py-3 {% if categorie_selectionnee == item.categorie.id|stringformat:'s' %}!bg-black !text-white !border-black{% else %}bg-white text-gray-800 border-gray-200{% endif %} border-2 font-semibold uppercase tracking-wide text-sm hover:bg-black hover:text-white hover:border-black transition-all duration-200">
+                            <i class="fas fa-tag mr-2"></i>
+                            <span>{{ item.categorie.nom|upper }}</span>
+                            <span class="ml-2 text-xs opacity-75">({{ item.count }})</span>
+                        </a>
+                    {% endfor %}
+                </div>
+                
+                <!-- Indicateur de filtre actif -->
+                <div id="filter-indicator" class="mb-6 {% if not categorie_selectionnee or categorie_selectionnee == 'all' %}hidden{% endif %}">
+                    <span class="inline-flex items-center px-4 py-2 bg-black text-white text-sm font-bold uppercase tracking-wide">
+                        <i class="fas fa-filter mr-2"></i>
+                        <span id="filter-text">Filtré par : 
+                            {% if categorie_selectionnee and categorie_selectionnee != 'all' %}
+                                {% for item in categories_with_count %}
+                                    {% if item.categorie.id|stringformat:'s' == categorie_selectionnee %}
+                                        {{ item.categorie.nom|upper }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </span>
+                        <a href="{% url 'produits:accueil' %}" class="ml-3 text-gray-300 hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+        
+        <div>
+            {% include 'partials/products_grid.html' %}
+        </div>
+    </section>
+</div>
+
+
+{% endblock %}

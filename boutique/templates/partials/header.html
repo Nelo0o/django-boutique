@@ -1,0 +1,61 @@
+<header class="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
+    <nav class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <a href="{% url 'produits:accueil' %}" class="flex items-center space-x-3 text-2xl font-black text-black hover:text-gray-800 transition-colors uppercase tracking-wider">
+                    <span>RABIBS</span>
+                </a>
+            </div>
+            
+            <!-- Navigation principale -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="{% url 'produits:accueil' %}" class="text-gray-800 hover:text-black transition-colors font-bold uppercase tracking-wide text-sm">
+                    ACCUEIL
+                </a>
+            </div>
+            
+            <!-- Actions utilisateur -->
+            <div class="flex items-center space-x-4">
+
+                <!-- Panier -->
+                <button class="relative p-2 text-black hover:text-gray-600 transition-colors">
+                    <i class="fas fa-shopping-bag text-xl"></i>
+                    <span class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                        0
+                    </span>
+                </button>
+                
+                <!-- Menu utilisateur -->
+                <div class="flex items-center space-x-2">
+                    <button class="p-2 text-black hover:text-gray-600 transition-colors">
+                        <i class="fas fa-user text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Menu mobile -->
+            <div class="md:hidden">
+                <button class="p-2 text-black hover:text-gray-600" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Menu mobile (caché par défaut) -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t border-black">
+            <div class="flex flex-col space-y-4 pt-4">
+                <a href="{% url 'produits:accueil' %}" class="text-black hover:text-gray-600 transition-colors font-bold uppercase tracking-wide text-sm">
+                    Home
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+}
+</script>

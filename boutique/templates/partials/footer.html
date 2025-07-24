@@ -1,0 +1,132 @@
+<footer class="bg-black text-white mt-auto">
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- À propos -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 flex items-center uppercase tracking-wide">
+                    RABIBS STREETWEAR STORE
+                </h3>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    Votre destination streetwear authentique. 
+                    Style urbain, qualité premium, attitude unique.
+                </p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
+                        <i class="fab fa-instagram text-lg"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
+                        <i class="fab fa-tiktok text-lg"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
+                        <i class="fab fa-twitter text-lg"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 uppercase tracking-wide">Boutique</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>
+                        <a href="{% url 'produits:accueil' %}" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-home mr-2"></i>Accueil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-tshirt mr-2"></i>Vêtements
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-gem mr-2"></i>Accessoires
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-fire mr-2"></i>Drops
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Support -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 uppercase tracking-wide">Support</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-shipping-fast mr-2"></i>Livraison
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-undo mr-2"></i>Retours
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-headset mr-2"></i>Support
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors uppercase tracking-wide text-xs">
+                            <i class="fas fa-star mr-2"></i>Avis
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Contact -->
+            <div>
+                <h3 class="text-lg font-bold mb-4 uppercase tracking-wide">Contact</h3>
+                <div class="space-y-2 text-sm text-gray-300">
+                    <p class="flex items-center uppercase tracking-wide text-xs">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        Paris, France
+                    </p>
+                    <p class="flex items-center uppercase tracking-wide text-xs">
+                        <i class="fas fa-clock mr-2"></i>
+                        24/7 En ligne
+                    </p>
+                    <p class="flex items-center uppercase tracking-wide text-xs">
+                        <i class="fas fa-envelope mr-2"></i>
+                        hello@rabibs.store
+                    </p>
+                </div>
+                
+                <!-- Newsletter -->
+                <div class="mt-6">
+                    <h4 class="text-sm font-bold uppercase tracking-wide mb-2">Newsletter</h4>
+                    <div class="flex">
+                        <input type="email" placeholder="Votre email" 
+                               class="bg-gray-800 text-white px-3 py-2 text-xs flex-1 border border-gray-600 focus:border-white transition-colors">
+                        <button class="bg-white text-black px-4 py-2 text-xs font-bold uppercase tracking-wide hover:bg-gray-200 transition-colors">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Ligne de séparation -->
+        <div class="border-t border-gray-800 mt-8 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-xs uppercase tracking-wide">
+                    &copy; {{ current_year }} RABIBS. Tous droits réservés.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white text-xs uppercase tracking-wide transition-colors">
+                        Confidentialité
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xs uppercase tracking-wide transition-colors">
+                        Conditions
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xs uppercase tracking-wide transition-colors">
+                        Cookies
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -63,7 +63,9 @@ docker-compose down
 docker-compose down -v
 
 # Exécuter des commandes Django
+docker-compose exec web python manage.py makemigrations
 docker-compose exec web python manage.py migrate
+docker-compose exec web python populate_db.py
 docker-compose exec web python manage.py createsuperuser
 docker-compose exec web python manage.py collectstatic
 ```
