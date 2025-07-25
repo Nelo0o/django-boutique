@@ -73,9 +73,18 @@
                         <span>{{ total }}€</span>
                     </div>
                 </div>
-                <button class="w-full bg-black text-white py-4 font-bold uppercase hover:bg-gray-800 transition-colors mb-4">
-                    <i class="fas fa-credit-card mr-3"></i>COMMANDER
-                </button>
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'panier:commander' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full bg-black text-white py-4 font-bold uppercase hover:bg-gray-800 transition-colors mb-4">
+                            <i class="fas fa-credit-card mr-3"></i>COMMANDER
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'comptes:login' %}" class="block w-full bg-black text-white py-4 font-bold uppercase hover:bg-gray-800 transition-colors mb-4 text-center">
+                        <i class="fas fa-sign-in-alt mr-3"></i>SE CONNECTER POUR COMMANDER
+                    </a>
+                {% endif %}
                 <a href="{% url 'produits:accueil' %}" class="block w-full text-center border-2 border-black py-3 font-semibold uppercase hover:bg-black hover:text-white transition-all">
                     <i class="fas fa-arrow-left mr-2"></i>CONTINUER
                 </a>
