@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'commandes',
     'comptes',
     'dashboard',
+    'notifications',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'boutique.context_processors.global_context',
                 'panier.context_processors.panier_count',
+                'notifications.context_processors.notifications_context',
             ],
         },
     },

@@ -1,4 +1,9 @@
+import csv
 from django.contrib import admin
+from django.http import HttpResponse
+from django.urls import path, reverse
+from django.utils.html import format_html
+from django.contrib import messages
 from .models import Commande, ArticleCommande
 
 
@@ -26,6 +31,25 @@ class CommandeAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         })
     )
+    
+    def get_urls(self):
+        """Ajouter l'URL pour le bouton CSV"""
+        urls = super().get_urls()
+        custom_urls = [
+            path('export-csv/', self.admin_site.admin_view(self.export_csv), name='commandes_export_csv'),
+        ]
+        return custom_urls + urls
+    
+    def changelist_view(self, request, extra_context=None):
+        """Ajouter le bouton CSV"""
+        extra_context = extra_context or {}
+        extra_context['csv_url'] = reverse('admin:commandes_export_csv')
+        return super().changelist_view(request, extra_context=extra_context)
+    
+    def export_csv(self, request):
+        """Utiliser l'API pour exporter"""
+        from api.views import CommandesCSVView
+        return CommandesCSVView().get(request)
 
 
 @admin.register(ArticleCommande)

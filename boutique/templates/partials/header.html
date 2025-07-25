@@ -32,7 +32,14 @@
                         <!-- Utilisateur connecté -->
                         <div class="relative group">
                             <button class="flex items-center space-x-2 p-2 text-black hover:text-gray-600 transition-colors">
-                                <i class="fas fa-user text-xl"></i>
+                                <div class="relative">
+                                    <i class="fas fa-user text-xl"></i>
+                                    {% if user.is_superuser and notifications_non_lues_count > 0 %}
+                                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold animate-pulse">
+                                            {{ notifications_non_lues_count }}
+                                        </span>
+                                    {% endif %}
+                                </div>
                                 <span class="hidden sm:block text-sm font-medium">{{ user.username }}</span>
                                 <i class="fas fa-chevron-down text-xs"></i>
                             </button>
@@ -42,6 +49,11 @@
                                 <a href="{% url 'comptes:compte_client' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                     <i class="fas fa-user-circle mr-2"></i>Mon compte
                                 </a>
+                                {% if user.is_superuser %}
+                                    <a href="{% url 'dashboard:admin' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                        <i class="fas fa-chart-bar mr-2"></i>Dashboard Admin
+                                    </a>
+                                {% endif %}
                                 <div class="border-t border-gray-100"></div>
                                 <form method="post" action="{% url 'comptes:logout' %}" class="block">
                                     {% csrf_token %}
@@ -89,6 +101,11 @@
                         <a href="{% url 'comptes:compte_client' %}" class="text-black hover:text-gray-600 transition-colors font-bold uppercase tracking-wide text-sm">
                             MON COMPTE
                         </a>
+                        {% if user.is_superuser %}
+                            <a href="{% url 'dashboard:admin' %}" class="text-black hover:text-gray-600 transition-colors font-bold uppercase tracking-wide text-sm">
+                                DASHBOARD ADMIN
+                            </a>
+                        {% endif %}
                         <form method="post" action="{% url 'comptes:logout' %}" class="inline">
                             {% csrf_token %}
                             <button type="submit" class="text-black hover:text-gray-600 transition-colors font-bold uppercase tracking-wide text-sm bg-transparent border-none p-0 cursor-pointer">

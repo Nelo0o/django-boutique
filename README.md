@@ -1,100 +1,84 @@
 # Django Boutique
 
-Une application Django dockerisée avec PostgreSQL.
+Projet de cours - Boutique en ligne avec Django et PostgreSQL.
 
-## 🚀 Démarrage rapide avec Docker
+## Fonctionnalités
 
-### Prérequis
-- Docker
-- Docker Compose
+**Clients :**
+- Authentification (inscription, connexion)
+- Catalogue produits avec filtrage par catégorie
+- Panier d'achats (AJAX)
+- Validation de commandes
+- Historique des achats
 
-### Installation et lancement
+**Administrateurs :**
+- Dashboard avec statistiques (CA total, commandes validées)
+- Gestion produits/catégories via Django Admin
+- Export CSV des commandes du jour
+- Notifications automatiques
 
-1. **Cloner le projet**
-   ```bash
-   git clone <votre-repo>
-   cd django-boutique
-   ```
+## Installation
 
-2. **Construire et lancer les conteneurs**
-   ```bash
-   docker-compose up --build
-   ```
-
-3. **Accéder à l'application**
-   - Application : http://localhost:8000
-   - Admin Django : http://localhost:8000/admin
-
-### 🔐 Personnaliser la configuration
-
-**Méthode recommandée** : Créez un fichier `.env` à partir du template :
+### Avec Docker (recommandé)
 
 ```bash
+# Cloner le projet
+git clone <repo-url>
+cd django-boutique
+
+# Configuration
 cp .env.example .env
+# Éditer .env si nécessaire
+
+# Lancer
+docker-compose up --build
 ```
 
-Puis modifiez les valeurs dans `.env` selon vos besoins :
+**Accès :**
+- Application : http://localhost:8000
+- Admin : http://localhost:8000/admin
+- Dashboard : http://localhost:8000/admin/dashboard
+- API CSV : http://localhost:8000/api/commandes/csv
+
+### Données de test
 
 ```bash
-# Superutilisateur Django
-DJANGO_SUPERUSER_USERNAME=mon_admin
-DJANGO_SUPERUSER_EMAIL=mon_email@example.com
-DJANGO_SUPERUSER_PASSWORD=mon_mot_de_passe_securise
-
-# Base de données
-DB_NAME=ma_boutique
-DB_USER=mon_user
-DB_PASSWORD=mon_password
+docker-compose exec web python populate_db.py
 ```
 
-### Commandes utiles
+## Structure
+
+```
+boutique/
+├── api/              # API CSV
+├── commandes/        # Gestion commandes
+├── comptes/          # Authentification
+├── dashboard/        # Dashboard admin
+├── panier/           # Panier d'achats
+├── produits/         # Catalogue
+└── notifications/    # Système notifications
+```
+
+## Technologies
+
+- Django 5.2.4
+- PostgreSQL
+- Docker
+- Tailwind CSS
+- AJAX
+
+## Commandes utiles
 
 ```bash
-# Lancer en arrière-plan
-docker-compose up -d
+# Migrations
+docker-compose exec web python manage.py migrate
 
-# Voir les logs
+# Superutilisateur
+docker-compose exec web python manage.py createsuperuser
+
+# Logs
 docker-compose logs -f
 
-# Arrêter les conteneurs
+# Arrêter
 docker-compose down
-
-# Supprimer les volumes (attention: supprime les données)
-docker-compose down -v
-
-# Exécuter des commandes Django
-docker-compose exec web python manage.py makemigrations
-docker-compose exec web python manage.py migrate
-docker-compose exec web python populate_db.py
-docker-compose exec web python manage.py createsuperuser
-docker-compose exec web python manage.py collectstatic
 ```
-
-## 🗄️ Base de données
-
-- **Type** : PostgreSQL 15
-- **Nom** : boutique_db
-- **Utilisateur** : boutique_user
-- **Port** : 5432
-
-## 📁 Structure du projet
-
-```
-django-boutique/
-├── boutique/              # Code Django
-│   ├── boutique/         # Configuration Django
-│   └── manage.py
-├── Dockerfile            # Configuration Docker
-├── docker-compose.yml    # Orchestration des services
-├── requirements.txt      # Dépendances Python
-├── .env                 # Variables d'environnement
-└── init.sh              # Script d'initialisation
-```
-
-## 🛠️ Développement
-
-Pour le développement local, vous pouvez modifier les fichiers directement. Les changements sont automatiquement synchronisés grâce au volume monté.
-
-## 🔧 Configuration
-
-Les variables d'environnement sont définies dans le fichier `.env`. Vous pouvez les modifier selon vos besoins. Django
