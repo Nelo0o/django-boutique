@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('produits.urls')),
     path('panier/', include('panier.urls')),
     path('comptes/', include('comptes.urls')),
+    path('commandes/', include('commandes.urls')),
 ]
 
 # Servir les fichiers média en développement
