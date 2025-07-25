@@ -1,50 +1,63 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView
+from django.db.models import Count
 from .models import Produit, Categorie
 
 
-def accueil(request):
+class AccueilView(ListView):
     """Page d'accueil avec liste des produits et filtrage par catégorie"""
-    categorie_id = request.GET.get('categorie')
+    model = Produit
+    template_name = 'accueil.html'
+    context_object_name = 'produits'
     
-    if categorie_id and categorie_id != 'all':
-        try:
-            produits = Produit.objects.filter(categorie_id=categorie_id)
-        except ValueError:
-            produits = Produit.objects.all()
-    else:
-        produits = Produit.objects.all()
+    def get_queryset(self):
+        """Filtrer les produits par catégorie si spécifiée"""
+        categorie_id = self.request.GET.get('categorie')
+        
+        if categorie_id and categorie_id != 'all':
+            try:
+                return Produit.objects.filter(categorie_id=categorie_id)
+            except ValueError:
+                return Produit.objects.all()
+        return Produit.objects.all()
     
-    categories = Categorie.objects.all()
-    
-    categories_with_count = []
-    for categorie in categories:
-        count = Produit.objects.filter(categorie=categorie).count()
-        categories_with_count.append({
-            'categorie': categorie,
-            'count': count
+    def get_context_data(self, **kwargs):
+        """Ajouter les catégories et statistiques au contexte"""
+        context = super().get_context_data(**kwargs)
+        
+        # Catégories avec compteur de produits
+        categories = Categorie.objects.annotate(
+            count=Count('produit')
+        )
+        
+        context.update({
+            'categories': categories,
+            'categories_with_count': [
+                {'categorie': cat, 'count': cat.count} 
+                for cat in categories
+            ],
+            'categorie_selectionnee': self.request.GET.get('categorie'),
+            'total_produits': Produit.objects.count(),
         })
-    
-    context = {
-        'produits': produits,
-        'categories': categories,
-        'categories_with_count': categories_with_count,
-        'categorie_selectionnee': categorie_id,
-        'total_produits': Produit.objects.count(),
-    }
-    return render(request, 'accueil.html', context)
+        return context
 
 
-def produit_detail(request, produit_id):
+class ProduitDetailView(DetailView):
     """Page de détail d'un produit"""
-    produit = get_object_or_404(Produit, id=produit_id)
+    model = Produit
+    template_name = 'produit_detail.html'
+    context_object_name = 'produit'
+    pk_url_kwarg = 'produit_id'
     
-    produits_similaires = Produit.objects.filter(
-        categorie=produit.categorie
-    ).exclude(id=produit.id)[:4]
-    
-    context = {
-        'produit': produit,
-        'produits_similaires': produits_similaires,
-    }
-    return render(request, 'produit_detail.html', context)
+    def get_context_data(self, **kwargs):
+        """Ajouter les produits similaires au contexte"""
+        context = super().get_context_data(**kwargs)
+        
+        # Produits similaires de la même catégorie
+        produits_similaires = Produit.objects.filter(
+            categorie=self.object.categorie
+        ).exclude(id=self.object.id)[:4]
+        
+        context['produits_similaires'] = produits_similaires
+        return context
 

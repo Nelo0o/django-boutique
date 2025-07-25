@@ -4,8 +4,8 @@ from . import views
 app_name = 'panier'
 
 urlpatterns = [
-    path('', views.panier_detail, name='detail'),
-    path('ajouter/<int:produit_id>/', views.ajouter_au_panier, name='ajouter'),
-    path('supprimer/<int:produit_id>/', views.supprimer_du_panier, name='supprimer'),
-    path('vider/', views.vider_panier, name='vider'),
+    path('', views.PanierDetailView.as_view(), name='detail'),
+    path('ajouter/<int:produit_id>/', views.AjouterAuPanierView.as_view(), name='ajouter'),
+    path('supprimer/<int:produit_id>/', views.SupprimerDuPanierView.as_view(), name='supprimer'),
+    path('vider/', views.ViderPanierView.as_view(), name='vider'),
 ]
