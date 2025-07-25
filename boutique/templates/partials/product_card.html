@@ -63,8 +63,9 @@
             
             <!-- Bouton d'action -->
             {% if show_add_to_cart|default:True %}
-                <button class="bg-black text-white w-full py-3 px-4 font-semibold uppercase tracking-wide hover:bg-gray-800 transition-colors duration-200 {% if not produit.est_disponible %}opacity-50 cursor-not-allowed{% endif %}" 
-                        {% if not produit.est_disponible %}disabled{% endif %}>
+                <button class="add-to-cart-btn bg-black text-white w-full py-3 px-4 font-semibold uppercase tracking-wide hover:bg-gray-800 transition-colors duration-200 {% if not produit.est_disponible %}opacity-50 cursor-not-allowed{% endif %}" 
+                        {% if not produit.est_disponible %}disabled{% endif %}
+                        data-produit-id="{{ produit.id }}">
                     {% if produit.est_disponible %}
                         <i class="fas fa-shopping-bag mr-2"></i><span>AJOUTER AU PANIER</span>
                     {% else %}

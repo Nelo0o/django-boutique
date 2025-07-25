@@ -19,12 +19,12 @@
             <div class="flex items-center space-x-4">
 
                 <!-- Panier -->
-                <button class="relative p-2 text-black hover:text-gray-600 transition-colors">
+                <a href="{% url 'panier:detail' %}" class="relative p-2 text-black hover:text-gray-600 transition-colors">
                     <i class="fas fa-shopping-bag text-xl"></i>
-                    <span class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
-                        0
+                    <span class="cart-count absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 items-center justify-center font-bold" {% if panier_count > 0 %}style="display: flex;"{% else %}style="display: none;"{% endif %}>
+                        {{ panier_count }}
                     </span>
-                </button>
+                </a>
                 
                 <!-- Menu utilisateur -->
                 <div class="flex items-center space-x-2">

@@ -65,6 +65,9 @@
     {% include 'partials/footer.html' %}
     
     <!-- Scripts -->
+    {% csrf_token %}
+    {% load static %}
+    <script src="{% static 'js/panier.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'boutique.context_processors.global_context',
+                'panier.context_processors.panier_count',
             ],
         },
     },

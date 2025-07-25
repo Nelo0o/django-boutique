@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('produits.urls')),
+    path('panier/', include('panier.urls')),
 ]
 
 # Servir les fichiers média en développement

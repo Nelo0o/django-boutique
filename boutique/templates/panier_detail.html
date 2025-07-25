@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Panier - RABIBS{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-black uppercase tracking-wide mb-8">
+        <i class="fas fa-shopping-bag mr-4"></i>MON PANIER
+    </h1>
+
+    {% if produits_panier %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Articles du panier -->
+            <div class="lg:col-span-2 space-y-4">
+                {% for item in produits_panier %}
+                    <div class="cart-item bg-white rounded-xl shadow-md border p-6" data-cart-count="{{ nombre_articles }}">
+                        <div class="flex gap-6">
+                            <!-- Image -->
+                            <div class="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
+                                {% if item.produit.image %}
+                                    <img src="{{ item.produit.image.url }}" alt="{{ item.produit.nom }}" class="w-full h-full object-cover">
+                                {% else %}
+                                    <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                                        <i class="fas fa-image text-4xl text-gray-400"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Infos -->
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-xl font-bold">{{ item.produit.nom }}</h3>
+                                        <p class="text-gray-600">{{ item.produit.categorie.nom }}</p>
+                                        <p class="text-lg font-bold mt-2">{{ item.produit.prix }}€ x {{ item.quantite }}</p>
+                                    </div>
+                                    
+                                    <!-- Bouton supprimer -->
+                                    <button class="remove-from-cart-btn text-red-600 hover:text-red-800 transition-colors p-2" 
+                                            data-produit-id="{{ item.produit.id }}" 
+                                            title="Supprimer du panier">
+                                        <i class="fas fa-trash text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+                <!-- Bouton vider le panier -->
+                <div class="pt-4">
+                    <button class="clear-cart-btn bg-red-600 text-white px-6 py-3 font-semibold uppercase tracking-wide hover:bg-red-700 transition-colors rounded-md">
+                        <i class="fas fa-trash mr-2"></i>Vider le panier
+                    </button>
+                </div>
+            </div>
+
+            <!-- Résumé -->
+            <div class="bg-gray-50 rounded-xl p-6 h-fit">
+                <h2 class="text-2xl font-bold mb-6">RÉSUMÉ</h2>
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between">
+                        <span>Articles ({{ nombre_articles }})</span>
+                        <span class="font-semibold">{{ total }}€</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Livraison</span>
+                        <span class="text-green-600 font-semibold">GRATUITE</span>
+                    </div>
+                    <hr>
+                    <div class="flex justify-between text-xl font-bold">
+                        <span>TOTAL</span>
+                        <span>{{ total }}€</span>
+                    </div>
+                </div>
+                <button class="w-full bg-black text-white py-4 font-bold uppercase hover:bg-gray-800 transition-colors mb-4">
+                    <i class="fas fa-credit-card mr-3"></i>COMMANDER
+                </button>
+                <a href="{% url 'produits:accueil' %}" class="block w-full text-center border-2 border-black py-3 font-semibold uppercase hover:bg-black hover:text-white transition-all">
+                    <i class="fas fa-arrow-left mr-2"></i>CONTINUER
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center py-16">
+            <i class="fas fa-shopping-bag text-6xl text-gray-400 mb-4"></i>
+            <h2 class="text-3xl font-bold mb-4">PANIER VIDE</h2>
+            <p class="text-gray-600 mb-8">Votre panier ne contient aucun article.</p>
+            <a href="{% url 'produits:accueil' %}" class="bg-black text-white py-4 px-8 font-bold uppercase hover:bg-gray-800 transition-colors">
+                NOS ARTICLES
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
